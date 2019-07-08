@@ -1,5 +1,5 @@
 {
-  "name": "mrself/bigcommerce",
+  "name": "mrself/bigcommerce-api-php-v3",
   "autoload": {
     "psr-4": {
       "Mrself\\Bigcommerce\\": "./src"
