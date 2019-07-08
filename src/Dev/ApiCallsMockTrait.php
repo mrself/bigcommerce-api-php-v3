@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Mrself\Bigcommerce\Dev;
+namespace Mrself\BigcommerceV3\Dev;
 
 use BigCommerce\Api\v3\Model\OptionPost;
 use BigCommerce\Api\v3\Model\ProductPost;

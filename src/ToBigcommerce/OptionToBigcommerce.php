@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Mrself\Bigcommerce\ToBigcommerce;
+namespace Mrself\BigcommerceV3\ToBigcommerce;
 
 class OptionToBigcommerce extends AbstractToBigcommerce
 {

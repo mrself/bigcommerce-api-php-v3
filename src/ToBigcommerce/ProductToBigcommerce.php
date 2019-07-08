@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace Mrself\Bigcommerce\ToBigcommerce;
+namespace Mrself\BigcommerceV3\ToBigcommerce;
 
 use BigCommerce\Api\v3\Api\CatalogApi;
 use BigCommerce\Api\v3\ApiClient;

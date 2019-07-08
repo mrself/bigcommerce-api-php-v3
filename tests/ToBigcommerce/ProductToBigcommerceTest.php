@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace Mrself\Bigcommerce\Tests\Functional\ToBigcommerce;
+namespace Mrself\BigcommerceV3\Tests\Functional\ToBigcommerce;
 
 use BigCommerce\Api\v3\ApiClient;
-use Mrself\Bigcommerce\Dev\BigcommerceTrait;
-use Mrself\Bigcommerce\ToBigcommerce\ProductToBigcommerce;
+use Mrself\BigcommerceV3\Dev\BigcommerceTrait;
+use Mrself\BigcommerceV3\ToBigcommerce\ProductToBigcommerce;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
