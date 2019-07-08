@@ -2,12 +2,12 @@
   "name": "mrself/bigcommerce-api-php-v3",
   "autoload": {
     "psr-4": {
-      "Mrself\\Bigcommerce\\": "./src"
+      "Mrself\\BigcommerceV3\\": "./src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Mrself\\Bigcommerce\\Tests\\": "./tests"
+      "Mrself\\BigcommerceV3\\Tests\\": "./tests"
     }
   },
   "require": {
