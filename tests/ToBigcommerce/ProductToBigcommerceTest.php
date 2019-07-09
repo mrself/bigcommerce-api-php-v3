@@ -188,6 +188,50 @@ class ProductToBigcommerceTest extends TestCase
         $service->bySku($product)->save();
     }
 
+    public function testItUpdatesProductWithoutOptions()
+    {
+        $product = $this->getBcProductData([
+            'sku' => 'sku',
+        ]);
+
+        $this->client->expects($this->exactly(3))
+            ->method('callApi')
+            ->withConsecutive(
+                $this->getApiCallProducts(['sku' => 'sku']),
+                $this->getApiCallOptions(),
+                $this->getApiCallPutProduct()
+            )
+            ->willReturnOnConsecutiveCalls(
+                [
+                    (object) [
+                        'data' => [(object) $product],
+                        'meta' => []
+                    ],
+                    200,
+                    'Content-Type: application/json'
+                ],
+                [
+                    (object) [
+                        'data' => [],
+                        'meta' => []
+                    ],
+                    200,
+                    'Content-Type: application/json'
+                ],
+                [
+                    (object) [
+                        'data' => (object) $product,
+                        'meta' => []
+                    ],
+                    200,
+                    'Content-Type: application/json'
+                ]
+            );
+        $service = ProductToBigcommerce::make(['client' => $this->client]);
+
+        $service->bySku($product)->save();
+    }
+
     public function testSaveUpdatesProductIfThereIsSuchBySku()
     {
         $option = $this->getBcOptionData();

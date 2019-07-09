@@ -79,7 +79,9 @@ class ProductToBigcommerce extends AbstractToBigcommerce
     {
         $productPut = new ProductPut($this->newData);
         $this->catalog->updateProduct($this->newData['id'], $productPut);
-        $this->saveOptions();
+        if ($this->optionsExist()) {
+            $this->saveOptions();
+        }
     }
 
     /**
@@ -91,10 +93,15 @@ class ProductToBigcommerce extends AbstractToBigcommerce
         $productId = $this->catalog->createProduct($productPost)
             ->getData()
             ->getId();
-        if (array_key_exists('options', $this->newData) && count($this->newData['options'])) {
+        if ($this->optionsExist()) {
             $this->createOptions($productId);
             $this->createVariants($productId);
         }
+    }
+
+    protected function optionsExist()
+    {
+        return array_key_exists('options', $this->newData) && count($this->newData['options']);
     }
 
     /**
