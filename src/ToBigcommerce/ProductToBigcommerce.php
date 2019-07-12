@@ -90,6 +90,7 @@ class ProductToBigcommerce extends AbstractToBigcommerce
     protected function create()
     {
         $productPost = new ProductPost($this->newData);
+        $productPost->setVariants(null);
         $productId = $this->catalog->createProduct($productPost)
             ->getData()
             ->getId();
