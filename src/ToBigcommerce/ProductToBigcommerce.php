@@ -78,7 +78,7 @@ class ProductToBigcommerce extends AbstractToBigcommerce
     protected function update()
     {
         $productPut = new ProductPut($this->newData);
-        $this->catalog->updateProduct($this->newData['id'], $productPut);
+        $this->catalog->updateProduct($this->existingData->getId(), $productPut);
         if ($this->optionsExist()) {
             $this->saveOptions();
         }
