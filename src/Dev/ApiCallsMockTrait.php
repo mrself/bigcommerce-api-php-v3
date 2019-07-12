@@ -49,6 +49,19 @@ trait ApiCallsMockTrait
         ];
     }
 
+    protected function getApiCallDeleteProduct()
+    {
+        return [
+            '/catalog/products/1',
+            'DELETE',
+            [],
+            '',
+            $this->getRequestHeaders(),
+            null,
+            '/catalog/products/{product_id}'
+        ];
+    }
+
     protected function getApiCallOptions($params = [])
     {
         return [
