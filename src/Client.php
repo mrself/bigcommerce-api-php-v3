@@ -2,6 +2,7 @@
 
 namespace Mrself\BigcommerceV3;
 
+use BigCommerce\Api\v3\Api\CatalogApi;
 use BigCommerce\Api\v3\ApiClient;
 use BigCommerce\Api\v3\Configuration;
 use Mrself\Container\Registry\ContainerRegistry;
@@ -20,5 +21,9 @@ class Client
         $client = new ApiClient($config);
         ContainerRegistry::get('Mrself\\BigcommerceV3')
             ->set(ApiClient::class, $client);
+
+        $catalog = new CatalogApi($client);
+        ContainerRegistry::get('Mrself\\BigcommerceV3')
+            ->set(CatalogApi::class, $catalog);
     }
 }
