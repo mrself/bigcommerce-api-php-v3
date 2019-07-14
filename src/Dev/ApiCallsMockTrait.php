@@ -3,6 +3,7 @@
 namespace Mrself\BigcommerceV3\Dev;
 
 use BigCommerce\Api\v3\Model\OptionPost;
+use BigCommerce\Api\v3\Model\ProductImagePost;
 use BigCommerce\Api\v3\Model\ProductPost;
 use BigCommerce\Api\v3\Model\ProductPut;
 use BigCommerce\Api\v3\Model\VariantPost;
@@ -124,6 +125,32 @@ trait ApiCallsMockTrait
             $this->getRequestHeaders(),
             '\BigCommerce\Api\v3\Model\VariantResponse',
             '/catalog/products/{product_id}/variants/{variant_id}'
+        ];
+    }
+
+    protected function getApiCallPostImage()
+    {
+        return [
+            '/catalog/products/1/images',
+            'POST',
+            [],
+            $this->isInstanceOf(ProductImagePost::class),
+            $this->getRequestHeaders(),
+            '\BigCommerce\Api\v3\Model\ProductImageResponse',
+            '/catalog/products/{product_id}/images'
+        ];
+    }
+
+    protected function getApiCallDeleteImage()
+    {
+        return [
+            '/catalog/products/1/images/1',
+            'DELETE',
+            [],
+            '',
+            $this->getRequestHeaders(),
+            null,
+            '/catalog/products/{product_id}/images/{image_id}'
         ];
     }
 

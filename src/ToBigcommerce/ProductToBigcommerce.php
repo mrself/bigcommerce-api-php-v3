@@ -9,6 +9,9 @@ use BigCommerce\Api\v3\Model\OptionPost;
 use BigCommerce\Api\v3\Model\OptionResponse;
 use BigCommerce\Api\v3\Model\OptionValue;
 use BigCommerce\Api\v3\Model\Product;
+use BigCommerce\Api\v3\Model\ProductImage;
+use BigCommerce\Api\v3\Model\ProductImagePost;
+use BigCommerce\Api\v3\Model\ProductImagePut;
 use BigCommerce\Api\v3\Model\ProductPost;
 use BigCommerce\Api\v3\Model\ProductPut;
 use BigCommerce\Api\v3\Model\Variant;
@@ -82,6 +85,7 @@ class ProductToBigcommerce extends AbstractToBigcommerce
         if ($this->optionsExist()) {
             $this->saveOptions();
         }
+        $this->updateImages();
     }
 
     /**
@@ -98,6 +102,73 @@ class ProductToBigcommerce extends AbstractToBigcommerce
             $this->createOptions($productId);
             $this->createVariants($productId);
         }
+        $this->createImages();
+    }
+
+    protected function createImages()
+    {
+        if (!array_key_exists('images', $this->newData)) {
+            return;
+        }
+
+        foreach ($this->newData['images'] as $image) {
+            $imagePost = new ProductImagePost($image);
+            $this->catalog->createProductImage($this->existingData->getId(), $imagePost);
+        }
+    }
+
+    /**
+     * @throws \BigCommerce\Api\v3\ApiException
+     */
+    protected function updateImages()
+    {
+        if (!array_key_exists('images', $this->newData)) {
+            return;
+        }
+        $this->removeExtraImages();
+        $this->createNewExtraImages();
+    }
+
+    /**
+     * @throws \BigCommerce\Api\v3\ApiException
+     */
+    protected function removeExtraImages()
+    {
+        foreach ($this->existingData->getImages() as $image) {
+            if (!$this->isNewImage($image->getImageUrl())) {
+                $this->catalog->deleteProductImage($this->existingData->getId(), $image->getId());
+            }
+        }
+    }
+
+    protected function isNewImage(string $url): bool
+    {
+        $result = array_filter($this->newData['images'], function ($image) use ($url) {
+            return $image['image_url'] === $url;
+        });
+        return !!count($result);
+    }
+
+    /**
+     * @throws \BigCommerce\Api\v3\ApiException
+     */
+    protected function createNewExtraImages()
+    {
+        foreach ($this->newData['images'] as $image) {
+            if (!$this->isExistingImage($image['image_url'])) {
+                $imagePost = new ProductImagePost($image);
+                $this->catalog->createProductImage($this->existingData->getId(), $imagePost);
+            }
+        }
+    }
+
+    protected function isExistingImage(string $url): bool
+    {
+        $images = $this->existingData->getImages();
+        $result = array_filter($images, function (ProductImage $image) use ($url) {
+            return $image->getImageUrl() === $url;
+        });
+        return !!count($result);
     }
 
     protected function optionsExist()
