@@ -102,10 +102,10 @@ class ProductToBigcommerce extends AbstractToBigcommerce
             $this->createOptions($productId);
             $this->createVariants($productId);
         }
-        $this->createImages();
+        $this->createImages($productId);
     }
 
-    protected function createImages()
+    protected function createImages($productId)
     {
         if (!array_key_exists('images', $this->newData)) {
             return;
@@ -113,7 +113,7 @@ class ProductToBigcommerce extends AbstractToBigcommerce
 
         foreach ($this->newData['images'] as $image) {
             $imagePost = new ProductImagePost($image);
-            $this->catalog->createProductImage($this->existingData->getId(), $imagePost);
+            $this->catalog->createProductImage($productId, $imagePost);
         }
     }
 

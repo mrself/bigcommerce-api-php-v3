@@ -182,4 +182,50 @@ class ImageTest extends TestCase
         $product['oldImages'] = [['image_url' => 'url']];
         $service->bySku($product)->save();
     }
+
+    public function testImageIsCreatedForNewProduct()
+    {
+        $product = $this->getBcProductData([
+            'sku' => 'sku'
+        ]);
+
+        $this->client->expects($this->exactly(3))
+            ->method('callApi')
+            ->withConsecutive(
+                $this->getApiCallProducts(['sku' => 'sku']),
+                $this->getApiCallPostProduct(),
+                $this->getApiCallPostImage()
+            )
+            ->willReturnOnConsecutiveCalls(
+                [
+                    (object) [
+                        'data' => [],
+                        'meta' => []
+                    ],
+                    200,
+                    'Content-Type: application/json'
+                ],
+                [
+                    (object) [
+                        'data' => (object) $product,
+                        'meta' => []
+                    ],
+                    200,
+                    'Content-Type: application/json'
+                ],
+                [
+                    (object) [
+                        'data' => [
+                            (object) ['image_url' => 'url', 'id' => 1]
+                        ],
+                        'meta' => []
+                    ],
+                    200,
+                    'Content-Type: application/json'
+                ]
+            );
+        $service = ProductToBigcommerce::make(['client' => $this->client]);
+        $product['images'] = [['image_url' => 'url']];
+        $service->bySku($product)->save();
+    }
 }
