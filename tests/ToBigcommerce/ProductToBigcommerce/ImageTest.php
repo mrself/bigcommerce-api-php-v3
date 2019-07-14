@@ -15,12 +15,11 @@ class ImageTest extends TestCase
             'sku' => 'sku'
         ]);
 
-        $this->client->expects($this->exactly(5))
+        $this->client->expects($this->exactly(4))
             ->method('callApi')
             ->withConsecutive(
                 $this->getApiCallProducts(['sku' => 'sku']),
                 $this->getApiCallOptions(),
-                $this->getApiCallImages(),
                 $this->getApiCallPutProduct(),
                 $this->getApiCallPostImage()
             )
@@ -40,14 +39,6 @@ class ImageTest extends TestCase
                         'data' => [
                             (object) $this->getBcOptionData()
                         ],
-                        'meta' => []
-                    ],
-                    200,
-                    'Content-Type: application/json'
-                ],
-                [
-                    (object) [
-                        'data' => [],
                         'meta' => []
                     ],
                     200,
@@ -83,12 +74,11 @@ class ImageTest extends TestCase
             'sku' => 'sku'
         ]);
 
-        $this->client->expects($this->exactly(4))
+        $this->client->expects($this->exactly(3))
             ->method('callApi')
             ->withConsecutive(
                 $this->getApiCallProducts(['sku' => 'sku']),
                 $this->getApiCallOptions(),
-                $this->getApiCallImages(),
                 $this->getApiCallPutProduct()
             )
             ->willReturnOnConsecutiveCalls(
@@ -114,18 +104,6 @@ class ImageTest extends TestCase
                 ],
                 [
                     (object) [
-                        'data' => [
-                            [
-                                (object) ['image_url' => 'url']
-                            ]
-                        ],
-                        'meta' => []
-                    ],
-                    200,
-                    'Content-Type: application/json'
-                ],
-                [
-                    (object) [
                         'data' => (object) $product,
                         'meta' => []
                     ],
@@ -134,6 +112,8 @@ class ImageTest extends TestCase
                 ]
             );
         $service = ProductToBigcommerce::make(['client' => $this->client]);
+        $product['oldImages'] = [['image_url' => 'url']];
+        $product['images'] = [['image_url' => 'url']];
         $service->bySku($product)->save();
     }
 
@@ -148,8 +128,8 @@ class ImageTest extends TestCase
             ->withConsecutive(
                 $this->getApiCallProducts(['sku' => 'sku']),
                 $this->getApiCallOptions(),
-                $this->getApiCallImages(),
                 $this->getApiCallPutProduct(),
+                $this->getApiCallImages(),
                 $this->getApiCallDeleteImage()
             )
             ->willReturnOnConsecutiveCalls(
@@ -175,9 +155,7 @@ class ImageTest extends TestCase
                 ],
                 [
                     (object) [
-                        'data' => [
-                            (object) ['image_url' => 'url', 'id' => 1]
-                        ],
+                        'data' => (object) $product,
                         'meta' => []
                     ],
                     200,
@@ -185,7 +163,9 @@ class ImageTest extends TestCase
                 ],
                 [
                     (object) [
-                        'data' => (object) $product,
+                        'data' => [
+                            (object) ['image_url' => 'url', 'id' => 1]
+                        ],
                         'meta' => []
                     ],
                     200,
@@ -199,6 +179,7 @@ class ImageTest extends TestCase
             );
         $service = ProductToBigcommerce::make(['client' => $this->client]);
         $product['images'] = [];
+        $product['oldImages'] = [['image_url' => 'url']];
         $service->bySku($product)->save();
     }
 }

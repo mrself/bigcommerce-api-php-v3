@@ -33,11 +33,6 @@ class ProductToBigcommerce extends AbstractToBigcommerce
     protected $existingOptions;
 
     /**
-     * @var ProductImage[]
-     */
-    protected $existingImages = [];
-
-    /**
      * @var CatalogApi
      */
     protected $catalog;
@@ -57,9 +52,6 @@ class ProductToBigcommerce extends AbstractToBigcommerce
             $this->existingData = $products[0];
             $this->existingOptions = $this->catalog
                 ->getOptions($this->existingData->getId())
-                ->getData();
-            $this->existingImages = $this->catalog
-                ->getProductImages($this->existingData->getId())
                 ->getData();
         }
         $this->newData = $data;
@@ -133,19 +125,41 @@ class ProductToBigcommerce extends AbstractToBigcommerce
         if (!array_key_exists('images', $this->newData)) {
             return;
         }
-        $this->removeExtraImages();
-        $this->createNewExtraImages();
+        if ($this->hasExtraImages()) {
+            $this->removeImages();
+            $this->createAllImages();
+        } else {
+            $this->createNewExtraImages();
+        }
     }
 
     /**
      * @throws \BigCommerce\Api\v3\ApiException
      */
-    protected function removeExtraImages()
+    protected function hasExtraImages(): bool
     {
-        foreach ($this->existingImages as $image) {
-            if (!$this->isNewImage($image->getImageUrl())) {
-                $this->catalog->deleteProductImage($this->existingData->getId(), $image->getId());
+        if (!array_key_exists('oldImages', $this->newData)) {
+            return false;
+        }
+
+        foreach ($this->newData['oldImages'] as $image) {
+            if (!$this->isNewImage($image['image_url'])) {
+                return true;
             }
+        }
+        return false;
+    }
+
+    /**
+     * @throws \BigCommerce\Api\v3\ApiException
+     */
+    protected function removeImages()
+    {
+        $images = $this->catalog
+            ->getProductImages($this->existingData->getId())
+            ->getData();
+        foreach ($images as $image) {
+            $this->catalog->deleteProductImage($this->existingData->getId(), $image->getId());
         }
     }
 
@@ -170,10 +184,26 @@ class ProductToBigcommerce extends AbstractToBigcommerce
         }
     }
 
+    /**
+     * @throws \BigCommerce\Api\v3\ApiException
+     */
+    protected function createAllImages()
+    {
+        foreach ($this->newData['images'] as $image) {
+            $imagePost = new ProductImagePost($image);
+            $this->catalog->createProductImage($this->existingData->getId(), $imagePost);
+        }
+    }
+
     protected function isExistingImage(string $url): bool
     {
-        $result = array_filter($this->existingImages, function (ProductImage $image) use ($url) {
-            return $image->getImageUrl() === $url;
+        if (!array_key_exists('oldImages', $this->newData)) {
+            return false;
+        }
+
+        $images = $this->newData['oldImages'];
+        $result = array_filter($images, function ($image) use ($url) {
+            return $image['image_url'] === $url;
         });
         return !!count($result);
     }

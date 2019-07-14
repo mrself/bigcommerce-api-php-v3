@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4fbb5631b9197681e400606930a3e6f5",
+    "content-hash": "3775ed14cde23ee8e642fce363707496",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -135,48 +135,17 @@
             "time": "2019-06-08T11:03:04+00:00"
         },
         {
-            "name": "mrself/container",
-            "version": "v1.4.2",
+            "name": "moderntribe/bigcommerce-api-php-v3",
+            "version": "v1.14.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/mrself/php-container.git",
-                "reference": "20a1a6d56a126188a32ad083d516b84e4f2c78a5"
+                "url": "https://github.com/moderntribe/bigcommerce-api-php-v3.git",
+                "reference": "f6ca4cb3683b3f511eb2fbe9fea3d5f659f3a514"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/mrself/php-container/zipball/20a1a6d56a126188a32ad083d516b84e4f2c78a5",
-                "reference": "20a1a6d56a126188a32ad083d516b84e4f2c78a5",
-                "shasum": ""
-            },
-            "require": {
-                "mrself/options": "^2.8",
-                "php": "^7.2"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7",
-                "symfony/var-dumper": "^4.2"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Mrself\\Container\\": "./src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "time": "2019-06-13T16:55:54+00:00"
-        },
-        {
-            "name": "mrself/forked-bigcommerce-api-php-v3",
-            "version": "v1.15.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mrself/forked-bigcommerce-api-php-v3.git",
-                "reference": "a3736bebc1e89fb38cc2a4f9ebd8373ccb14253a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mrself/forked-bigcommerce-api-php-v3/zipball/a3736bebc1e89fb38cc2a4f9ebd8373ccb14253a",
-                "reference": "a3736bebc1e89fb38cc2a4f9ebd8373ccb14253a",
+                "url": "https://api.github.com/repos/moderntribe/bigcommerce-api-php-v3/zipball/f6ca4cb3683b3f511eb2fbe9fea3d5f659f3a514",
+                "reference": "f6ca4cb3683b3f511eb2fbe9fea3d5f659f3a514",
                 "shasum": ""
             },
             "require": {
@@ -213,7 +182,38 @@
                 "sdk",
                 "swagger"
             ],
-            "time": "2019-07-14T14:12:28+00:00"
+            "time": "2019-07-12T14:11:35+00:00"
+        },
+        {
+            "name": "mrself/container",
+            "version": "v1.4.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mrself/php-container.git",
+                "reference": "20a1a6d56a126188a32ad083d516b84e4f2c78a5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mrself/php-container/zipball/20a1a6d56a126188a32ad083d516b84e4f2c78a5",
+                "reference": "20a1a6d56a126188a32ad083d516b84e4f2c78a5",
+                "shasum": ""
+            },
+            "require": {
+                "mrself/options": "^2.8",
+                "php": "^7.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7",
+                "symfony/var-dumper": "^4.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mrself\\Container\\": "./src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "time": "2019-06-13T16:55:54+00:00"
         },
         {
             "name": "mrself/options",

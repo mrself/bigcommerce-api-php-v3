@@ -12,12 +12,11 @@ class ProductToBigcommerceTest extends TestCase
 
     public function testBySkuSearchesProduct()
     {
-        $this->client->expects($this->exactly(3))
+        $this->client->expects($this->exactly(2))
             ->method('callApi')
             ->withConsecutive(
                 $this->getApiCallProducts(['sku' => 'sku']),
-                $this->getApiCallOptions(),
-                $this->getApiCallImages()
+                $this->getApiCallOptions()
             )
             ->willReturnOnConsecutiveCalls(
                 [
@@ -39,8 +38,7 @@ class ProductToBigcommerceTest extends TestCase
                     ],
                     200,
                     'Content-Type: application/json'
-                ],
-                $this->getImagesResponse()
+                ]
             );
         $service = ProductToBigcommerce::make(['client' => $this->client]);
         $service->bySku(['sku' => 'sku']);
@@ -184,12 +182,11 @@ class ProductToBigcommerceTest extends TestCase
             'sku' => 'sku',
         ]);
 
-        $this->client->expects($this->exactly(4))
+        $this->client->expects($this->exactly(3))
             ->method('callApi')
             ->withConsecutive(
                 $this->getApiCallProducts(['sku' => 'sku']),
                 $this->getApiCallOptions(),
-                $this->getApiCallImages(),
                 $this->getApiCallPutProduct()
             )
             ->willReturnOnConsecutiveCalls(
@@ -209,7 +206,6 @@ class ProductToBigcommerceTest extends TestCase
                     200,
                     'Content-Type: application/json'
                 ],
-                $this->getImagesResponse(),
                 [
                     (object) [
                         'data' => (object) $product,
@@ -254,12 +250,11 @@ class ProductToBigcommerceTest extends TestCase
         $optionResponse = (object) $option;
         $optionResponse->option_values[0] = (object) $optionResponse->option_values[0];
 
-        $this->client->expects($this->exactly(5))
+        $this->client->expects($this->exactly(4))
             ->method('callApi')
             ->withConsecutive(
                 $this->getApiCallProducts(['sku' => 'sku']),
                 $this->getApiCallOptions(),
-                $this->getApiCallImages(),
                 $this->getApiCallPutProduct(),
                 $this->getApiCallPutVariant()
             )
@@ -282,7 +277,6 @@ class ProductToBigcommerceTest extends TestCase
                     200,
                     'Content-Type: application/json'
                 ],
-                $this->getImagesResponse(),
                 [
                     (object) [
                         'data' => (object) $responseProduct,
@@ -335,12 +329,11 @@ class ProductToBigcommerceTest extends TestCase
         $optionResponse = (object) $option;
         $optionResponse->option_values[0] = (object) $optionResponse->option_values[0];
 
-        $this->client->expects($this->exactly(7))
+        $this->client->expects($this->exactly(6))
             ->method('callApi')
             ->withConsecutive(
                 $this->getApiCallProducts(['sku' => 'sku']),
                 $this->getApiCallOptions(),
-                $this->getApiCallImages(),
                 $this->getApiCallPutProduct(),
                 $this->getApiCallDeleteOption(),
                 $this->getApiCallPostOption(),
@@ -367,7 +360,6 @@ class ProductToBigcommerceTest extends TestCase
                     200,
                     'Content-Type: application/json'
                 ],
-                $this->getImagesResponse(),
                 // update product
                 [
                     (object) [
