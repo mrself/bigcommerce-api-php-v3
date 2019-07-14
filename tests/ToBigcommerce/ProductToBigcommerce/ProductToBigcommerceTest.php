@@ -1,26 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Mrself\BigcommerceV3\Tests\Functional\ToBigcommerce;
+namespace Mrself\BigcommerceV3\Tests\Functional\ToBigcommerce\ProductToBigcommerce;
 
-use BigCommerce\Api\v3\ApiClient;
-use Mrself\BigcommerceV3\Dev\BigcommerceTrait;
+use Mrself\BigcommerceV3\Tests\ToBigcommerce\ProductToBigcommerce\ProductToBigcommerceTrait;
 use Mrself\BigcommerceV3\ToBigcommerce\ProductToBigcommerce;
-use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ProductToBigcommerceTest extends TestCase
 {
-    use BigcommerceTrait;
-
-    /**
-     * @var ProductToBigcommerce
-     */
-    private $service;
-
-    /**
-     * @var ApiClient|MockObject
-     */
-    private $client;
+    use ProductToBigcommerceTrait;
 
     public function testBySkuSearchesProduct()
     {
@@ -413,14 +401,5 @@ class ProductToBigcommerceTest extends TestCase
 
         $product['options'][0]['display_name'] = 'option2';
         $service->bySku($product)->save();
-    }
-
-    protected function setUp()
-    {
-        parent::setUp();
-        $this->client = $this->getMockBuilder(ApiClient::class)
-            ->setMethods(['callApi'])
-            ->getMock();
-        $this->service = ProductToBigcommerce::make(['client' => $this->client]);
     }
 }
