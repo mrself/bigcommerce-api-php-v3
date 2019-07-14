@@ -31,8 +31,7 @@ trait ResourceTrait
             'primary_image' => (object) [
                 "standard_url" => 'url' . $this->bcProductIndex,
             ],
-            'categories' => [],
-            'images' => []
+            'categories' => []
         ], $source);
         $this->formatBcProductCategories($data);
         return $data;

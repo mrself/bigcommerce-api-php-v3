@@ -33,6 +33,11 @@ class ProductToBigcommerce extends AbstractToBigcommerce
     protected $existingOptions;
 
     /**
+     * @var ProductImage[]
+     */
+    protected $existingImages = [];
+
+    /**
      * @var CatalogApi
      */
     protected $catalog;
@@ -52,6 +57,9 @@ class ProductToBigcommerce extends AbstractToBigcommerce
             $this->existingData = $products[0];
             $this->existingOptions = $this->catalog
                 ->getOptions($this->existingData->getId())
+                ->getData();
+            $this->existingImages = $this->catalog
+                ->getProductImages($this->existingData->getId())
                 ->getData();
         }
         $this->newData = $data;
@@ -134,7 +142,7 @@ class ProductToBigcommerce extends AbstractToBigcommerce
      */
     protected function removeExtraImages()
     {
-        foreach ($this->existingData->getImages() as $image) {
+        foreach ($this->existingImages as $image) {
             if (!$this->isNewImage($image->getImageUrl())) {
                 $this->catalog->deleteProductImage($this->existingData->getId(), $image->getId());
             }
@@ -164,8 +172,7 @@ class ProductToBigcommerce extends AbstractToBigcommerce
 
     protected function isExistingImage(string $url): bool
     {
-        $images = $this->existingData->getImages();
-        $result = array_filter($images, function (ProductImage $image) use ($url) {
+        $result = array_filter($this->existingImages, function (ProductImage $image) use ($url) {
             return $image->getImageUrl() === $url;
         });
         return !!count($result);

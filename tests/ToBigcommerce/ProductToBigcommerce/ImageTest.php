@@ -15,11 +15,12 @@ class ImageTest extends TestCase
             'sku' => 'sku'
         ]);
 
-        $this->client->expects($this->exactly(4))
+        $this->client->expects($this->exactly(5))
             ->method('callApi')
             ->withConsecutive(
                 $this->getApiCallProducts(['sku' => 'sku']),
                 $this->getApiCallOptions(),
+                $this->getApiCallImages(),
                 $this->getApiCallPutProduct(),
                 $this->getApiCallPostImage()
             )
@@ -39,6 +40,14 @@ class ImageTest extends TestCase
                         'data' => [
                             (object) $this->getBcOptionData()
                         ],
+                        'meta' => []
+                    ],
+                    200,
+                    'Content-Type: application/json'
+                ],
+                [
+                    (object) [
+                        'data' => [],
                         'meta' => []
                     ],
                     200,
@@ -71,25 +80,22 @@ class ImageTest extends TestCase
     public function testImageIsNotCreatedIfItExists()
     {
         $product = $this->getBcProductData([
-            'sku' => 'sku',
-            'images' => [['image_url' => 'url']]
+            'sku' => 'sku'
         ]);
 
-        $productResponse = (object) $product;
-        $productResponse->images[0] = (object) $productResponse->images[0];
-
-        $this->client->expects($this->exactly(3))
+        $this->client->expects($this->exactly(4))
             ->method('callApi')
             ->withConsecutive(
                 $this->getApiCallProducts(['sku' => 'sku']),
                 $this->getApiCallOptions(),
+                $this->getApiCallImages(),
                 $this->getApiCallPutProduct()
             )
             ->willReturnOnConsecutiveCalls(
                 [
                     (object) [
                         'data' => [
-                            $productResponse
+                            (object) $product
                         ],
                         'meta' => []
                     ],
@@ -100,6 +106,18 @@ class ImageTest extends TestCase
                     (object) [
                         'data' => [
                             (object) $this->getBcOptionData()
+                        ],
+                        'meta' => []
+                    ],
+                    200,
+                    'Content-Type: application/json'
+                ],
+                [
+                    (object) [
+                        'data' => [
+                            [
+                                (object) ['image_url' => 'url']
+                            ]
                         ],
                         'meta' => []
                     ],
@@ -122,18 +140,15 @@ class ImageTest extends TestCase
     public function testImageIsDeletedIfItDoesNotExistInNewData()
     {
         $product = $this->getBcProductData([
-            'sku' => 'sku',
-            'images' => [['image_url' => 'url', 'id' => 1]]
+            'sku' => 'sku'
         ]);
 
-        $productResponse = (object) $product;
-        $productResponse->images[0] = (object) $productResponse->images[0];
-
-        $this->client->expects($this->exactly(4))
+        $this->client->expects($this->exactly(5))
             ->method('callApi')
             ->withConsecutive(
                 $this->getApiCallProducts(['sku' => 'sku']),
                 $this->getApiCallOptions(),
+                $this->getApiCallImages(),
                 $this->getApiCallPutProduct(),
                 $this->getApiCallDeleteImage()
             )
@@ -141,7 +156,7 @@ class ImageTest extends TestCase
                 [
                     (object) [
                         'data' => [
-                            $productResponse
+                            (object) $product
                         ],
                         'meta' => []
                     ],
@@ -152,6 +167,16 @@ class ImageTest extends TestCase
                     (object) [
                         'data' => [
                             (object) $this->getBcOptionData()
+                        ],
+                        'meta' => []
+                    ],
+                    200,
+                    'Content-Type: application/json'
+                ],
+                [
+                    (object) [
+                        'data' => [
+                            (object) ['image_url' => 'url', 'id' => 1]
                         ],
                         'meta' => []
                     ],

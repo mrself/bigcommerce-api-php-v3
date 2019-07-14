@@ -128,6 +128,19 @@ trait ApiCallsMockTrait
         ];
     }
 
+    protected function getApiCallImages($params = [])
+    {
+        return [
+            '/catalog/products/1/images',
+            'GET',
+            $params,
+            '',
+            $this->getRequestHeaders(),
+            '\BigCommerce\Api\v3\Model\ProductImageCollectionResponse',
+            '/catalog/products/{product_id}/images'
+        ];
+    }
+
     protected function getApiCallPostImage()
     {
         return [
