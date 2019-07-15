@@ -78,7 +78,7 @@ class ProductToBigcommerce extends AbstractToBigcommerce
     /**
      * @throws \BigCommerce\Api\v3\ApiException
      */
-    protected function update()
+    public function update()
     {
         $productPut = new ProductPut($this->newData);
         $this->catalog->updateProduct($this->existingData->getId(), $productPut);
@@ -91,7 +91,7 @@ class ProductToBigcommerce extends AbstractToBigcommerce
     /**
      * @throws \BigCommerce\Api\v3\ApiException
      */
-    protected function create()
+    public function create()
     {
         $productPost = new ProductPost($this->newData);
         $productPost->setVariants(null);
