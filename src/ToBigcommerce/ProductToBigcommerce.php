@@ -58,6 +58,11 @@ class ProductToBigcommerce extends AbstractToBigcommerce
         return $this;
     }
 
+    public function setNewData(array $data)
+    {
+        $this->newData = $data;
+    }
+
     public function getExistingData(): ?Product
     {
         return $this->existingData;
