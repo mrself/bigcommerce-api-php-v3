@@ -255,9 +255,9 @@ class ProductToBigcommerce extends AbstractToBigcommerce
     {
         $productId = $this->existingData ? $this->existingData->getId() : $productId;
         foreach ($this->newData['variants'] as $variant) {
-            $variantPost = new VariantPost($variant);
             $variant['option_values'] = $this->
                 formatVariantOptionValues($variant['option_values']);
+            $variantPost = new VariantPost($variant);
             $this->catalog->createVariant($productId, $variantPost);
         }
     }
