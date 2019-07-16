@@ -2,7 +2,7 @@
 
 namespace Mrself\BigcommerceV3\ToBigcommerce;
 
-use BigCommerce\Api\v3\ApiClient;
+use Mrself\BigcommerceV3\ApiClient;
 use Mrself\Options\Annotation\Option;
 use Mrself\Options\WithOptionsTrait;
 
