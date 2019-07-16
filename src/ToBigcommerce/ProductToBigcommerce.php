@@ -225,12 +225,24 @@ class ProductToBigcommerce extends AbstractToBigcommerce
     protected function saveOptions()
     {
         if ($this->optionsMatch()) {
-            $this->updateVariants();
+            if ($this->existingData->getVariants()) {
+                $this->updateVariants();
+            } else {
+                $this->recreateOptions();
+            }
         } else {
-            $this->removeOldOptions();
-            $this->createOptions();
-            $this->createVariants();
+            $this->recreateOptions();
         }
+    }
+
+    /**
+     * @throws \BigCommerce\Api\v3\ApiException
+     */
+    protected function recreateOptions()
+    {
+        $this->removeOldOptions();
+        $this->createOptions();
+        $this->createVariants();
     }
 
     /**
