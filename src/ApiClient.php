@@ -45,7 +45,8 @@ class ApiClient extends \BigCommerce\Api\v3\ApiClient
             }
 
             if ($this->logger) {
-                $this->logger->error('Bigcommerce error message: ' . $e->getResponseBody());
+                $body = json_encode($e->getResponseBody());
+                $this->logger->error('Bigcommerce error message: ' . $body);
             }
 
             throw $e;
