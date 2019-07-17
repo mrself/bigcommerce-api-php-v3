@@ -3,9 +3,15 @@
 namespace Mrself\BigcommerceV3;
 
 use BigCommerce\Api\v3\ApiException;
+use Psr\Log\LoggerInterface;
 
 class ApiClient extends \BigCommerce\Api\v3\ApiClient
 {
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
     public function callApi($resourcePath, $method, $queryParams, $postData, $headerParams, $responseType = null, $endpointPath = null)
     {
         try {
@@ -37,7 +43,17 @@ class ApiClient extends \BigCommerce\Api\v3\ApiClient
                     $endpointPath
                 );
             }
+
+            if ($this->logger) {
+                $this->logger->error('Bigcommerce error message: ' . $e->getResponseBody());
+            }
+
             throw $e;
         }
+    }
+
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
     }
 }
