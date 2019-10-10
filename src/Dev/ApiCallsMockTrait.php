@@ -102,6 +102,19 @@ trait ApiCallsMockTrait
         ];
     }
 
+    protected function getApiCallVariants($params = [])
+    {
+        return [
+            '/catalog/variants',
+            'GET',
+            $params,
+            '',
+            $this->getRequestHeaders(),
+            '\BigCommerce\Api\v3\Model\VariantCollectionResponse',
+            '/catalog/variants'
+        ];
+    }
+
     protected function getApiCallPostVariant()
     {
         return [
